@@ -48,10 +48,6 @@ for i in xrange(2, 11):
     for k in xrange(1, i + 1):
         count_terms[k].update(c_terms[k])
         unique_terms[k] = set(c_terms[k])
-        if k==3 and i==7:
-            print "Tabla de Frecuencias"
-            for term,n in count_terms[k].most_common(len(count_terms[k])):
-                print term + " p= " + str(n)
         IC = 0.0
         sw = True
         for i_c in count_terms[k]:
@@ -71,7 +67,7 @@ key = candidates[0]
 print "Key=" + str(key)
 for t, cesar_set in candidate_terms.iteritems():
 
-        ascii_values = list(xrange(128))
+        ascii_values = list(xrange(256))
         non_ascii_values = list(xrange(32))
         ascii_values_hex = [hex(i) for i in ascii_values]
         non_ascii_values_hex = [hex(i) for i in non_ascii_values]
@@ -83,9 +79,10 @@ for t, cesar_set in candidate_terms.iteritems():
             ascii_values_hex = [value for value in ascii_values_hex if not xor_hexa(term, value)]
         print "Values:"+ str(len(ascii_values_hex))
         ascii_values_str = [ chr(int(i,16)) for i in ascii_values_hex]
-        print ascii_values_str
+        #print ascii_values_str
 
-        for key in ascii_values_hex[:6]:
+        for key in ascii_values_hex[:200]:
+            s = ""
             terms_key = []
             count_keys = Counter()
             for term in cesar_set:
@@ -93,7 +90,11 @@ for t, cesar_set in candidate_terms.iteritems():
                 terms_key.append(chr(int(c_bin,16)))
                 #terms_key.append(c_bin)
             count_keys.update(terms_key)
-            print "Key " +(chr(int(key,16))) + "- " +str(key)
-            list_count = list(count_keys)[0]
-            if list_count[0] == " " or list_count[0] == "e":
-                print "Posible candidate"
+            #print "Key " +(chr(int(key,16))) + "- " +str(key)
+            #print count_keys
+            #list_count = list(count_keys)
+            #print list_count
+            for y, f in count_keys.most_common(1):
+                if y == " " or y == "e" or y == "a":
+                    s = s+chr(int(key,16))
+                    print chr(int(key,16)) + " " +str(key)+" is a Posible candidate with " + y
